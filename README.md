@@ -1,1 +1,1 @@
-# GoodNews
+# Good News Everyone!
