@@ -17,7 +17,8 @@ var PORT = 3000;
 var app = express();
 
 // Configure middleware
-
+app.engine("handlebars", handlebars({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 // Parse request body as JSON
@@ -30,15 +31,17 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/27017", { useNewUrlParser: true });
 
 // Routes
-
+app.get("/", function (req, res){
+  res.render("home")
+})
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
-  axios.get("http://www.theonion.com/").then(function(response) {
+  axios.get("http://www.echojs.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h2 within an article tag, and do the following:
+    // Now, we grab every h1 within an article tag, and do the following:
     $("article h2").each(function(i, element) {
       // Save an empty result object
       var result = {};
@@ -50,6 +53,9 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
+      result.summary = $(this)
+        .children("a")
+        .text();
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
@@ -120,5 +126,5 @@ app.post("/articles/:id", function(req, res) {
 
 // Start the server
 app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
+  console.log("App running on http://localhost:" + PORT + "/");
 });
