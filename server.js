@@ -31,8 +31,20 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/27017", { useNewUrlParser: true });
 
 // Routes
-app.get("/", function (req, res){
-  res.render("home")
+app.get("/", function(req, res) {
+  db.Article.find({ saved: false })
+    .sort({ date: -1 })
+    .then(function(dbArticles) {
+      res.render("home", { articles: dbArticles });
+    });
+})
+
+app.get("/saved", function(req, res) {
+  db.Article.find({ saved: true })
+    .sort({ date: -1 })
+    .then(function(dbArticles) {
+      res.render("saved", { articles: dbArticles });
+    });
 })
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
