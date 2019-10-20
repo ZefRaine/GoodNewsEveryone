@@ -1,4 +1,4 @@
-// import Axios from "axios";
+import Axios from "axios";
 
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
@@ -9,7 +9,7 @@ $.getJSON("/articles", function(data) {
     }
   });
   
-  document.getElementById("scrapper").addEventListener("click", function (event){
+  document.getElementsByClassName("scrapper").addEventListener("click", function (event){
       event.preventDefault()
 
       axios.get("/scrape").then(function (data){

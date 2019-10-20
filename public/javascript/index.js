@@ -10,7 +10,7 @@ $(document).ready(function() {
   
     function initPage() {
       // Run an AJAX request for any unsaved headlines
-      $.get("/api/headlines?saved=false").then(function(data) {
+      $.get("/scrape").then(function(data) {
         articleContainer.empty();
         // If we have headlines, render them to the page
         if (data && data.length) {
@@ -100,7 +100,7 @@ $(document).ready(function() {
       // Using a patch method to be semantic since this is an update to an existing record in our collection
       $.ajax({
         method: "PUT",
-        url: "/api/headlines/" + articleToSave._id,
+        url: "/saved/:" + articleToSave._id,
         data: articleToSave
       }).then(function(data) {
         // If the data was saved successfully
@@ -113,7 +113,7 @@ $(document).ready(function() {
   
     function handleArticleScrape() {
       // This function handles the user clicking any "scrape new article" buttons
-      $.get("/api/fetch").then(function(data) {
+      $.get("/scrape").then(function(data) {
         // If we are able to successfully scrape the NYTIMES and compare the articles to those
         // already in our collection, re render the articles on the page
         // and let the user know how many unique articles we were able to save

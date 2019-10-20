@@ -65,15 +65,16 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-      result.summary = $(this)
-        .children("a")
-        .text();
+      // result.summary = $(this)
+      //   .children("a")
+      //   .text();
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+          return dbArticle
         })
         .catch(function(err) {
           // If an error occurred, log it
@@ -86,6 +87,12 @@ app.get("/scrape", function(req, res) {
   });
 });
 
+app.get("/clear", function(req, res) {
+  db.Article.remove({})
+  .then(function(dbArticle) {
+    articleContainer.empty()
+  })
+})
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
   // Grab every document in the Articles collection
