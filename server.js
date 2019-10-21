@@ -28,13 +28,14 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/27017", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/dbArticles", { useNewUrlParser: true });
 
 // Routes
 app.get("/", function(req, res) {
-  db.Article.find({ saved: false })
+  db.Article.find({})
     .sort({ date: -1 })
     .then(function(dbArticles) {
+      console.log("wow", dbArticles);
       res.render("home", { articles: dbArticles });
     });
 })
