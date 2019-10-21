@@ -1,1 +1,1 @@
-# [Good News Everyone!](!https://goodnewseveryone.herokuapp.com/)
+# [Good News Everyone](!https://goodnewseveryone.herokuapp.com/)
