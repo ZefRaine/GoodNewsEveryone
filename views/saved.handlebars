@@ -21,3 +21,27 @@
         <a class="btn btn-danger clear">CLEAR article!</a>
       </li>
 </nav>
+<div class="container-fluid article-container">
+   {{#each articles}}
+  <div data-_id="{{this._id}}" class="card">
+    <div class="card-header">
+      <h3>
+        <a class="article-link" target="_blank" rel="noopener noreferrer" href="{{this.link}}">{{this.title}}</a>
+        <a class="btn btn-success save">Save Article</a>
+      </h3>
+    </div>
+    <div class="card-body">{{this.summary}}</div>
+  </div>
+  {{/each}}
+  {{#unless articles.length}}
+  <div class='alert alert-warning text-center'>
+    <h4>Uh Oh. Looks like we don't have any new articles.</h4>
+  </div>
+  {{/unless}}
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>The Echo News Scraper</p>
+  </div>
+</footer>
