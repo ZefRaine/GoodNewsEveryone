@@ -91,8 +91,12 @@ app.get("/scrape", function(req, res) {
 app.get("/clear", function(req, res) {
   db.Article.remove({})
   .then(function(dbArticle) {
-    articleContainer.empty()
+    return db.Article.remove({})
+    //articleContainer.empty()
   })
+  .then(function() {
+    res.json({ ok: true });
+  });
 })
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
